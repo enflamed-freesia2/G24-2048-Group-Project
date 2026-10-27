@@ -1,0 +1,36 @@
+
+- Part A- 2048, look in the zip file there are more detailed instructions there if you want to know, I'm just listing down what we needed completed for the section 
+    - we currently need to add directional interface and function to the directional key function 
+        1. Slide nonzero tiles as far as possible in the chosen direction.
+        2. Merge equal adjacent tiles in the direction of travel. Each tile may participate in only one merge during a move. A newly merged tile cannot merge again in that move.
+        3. Close gaps after merging. Add the value of every newly merged tile to the score.
+        4. If the board changed, count one successful move and insert exactly one new 2 in a randomly selected empty cell. This
+        includes a slide with no merge.
+        5. If the board did not change, do not insert a tile or change the score or move count.
+
+    - For interface, it is not a main focus, we'll only really use it to test whether it functions right or not and then finish it after all of the other conditions like the directional and save function have been met
+        Here's the goal that's being looked:
+        1. Display commands for u/d/l/r (movement), s (save), o (open/load), n (new game after confirmation), h (help), and e (exit).
+        2. Explain them in the program and README. Reject invalid commands and handle end of input cleanly.
+        3. Display the board, score, successful-move count, and highest tile at startup and after movement, a new game, or a successful load. 
+        4. Help, save, invalid input, and exit must not change the game state. Random insertion earns no score.
+        5. Announce success when a tile reaches 2048 or higher and allow continued play. Game over means there are no empty cells and no equal horizontal or vertical neighbors. A full board may still have a valid move. At game over, allow save, load, new game, help, and exit, but prevent further movement.
+
+    - Save function of the game
+        This is going to be a more tricky one
+
+
+- Part B- Luhn checksum validation (Lanz will mostly handle this part, would also still recommend looking at the documents there's more specific details you need to do to check it)
+    1. Starting at the rightmost digit, leave that digit unchanged and double every second digit as you move left.
+    2. If a doubled value has two digits, add those digits together. Subtracting 9 from a doubled value greater than 9 is equivalent.
+    3. Sum all the resulting values, including unchanged digits.
+    4. The number passes the Luhn checksum exactly when the sum is divisible by 10.
+
+    - Separate input-format validation from the checksum calculation. Include a clearly named checkLuhn function and any helpers needed. 
+
+    - Implement the calculation yourself rather than calling a checksum library or external service. 
+
+    - Allow the user to check more than one number without restarting the program. Offer a clear exit choice. Reject malformed inputs and allow another attempt; handle end of input cleanly. 
+    
+    - Do not modify the original input while preparing the checksum calculation
+    
