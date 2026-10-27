@@ -18,6 +18,17 @@
 
     - Save function of the game
         This is going to be a more tricky one
+        Use C++ text-file streams and one slot named savegame.txt in the working directory. Saving again may replace this slot;
+        **explain that behavior in help and the README. Report file-open or write failures accurately.**
+        - Save all 25 cells and both counters. Loading must:
+            - Check the version marker, two nonnegative integer counters, and exactly 25 integer cell values.
+            - Accept a cell only if it is zero or a power of two of at least 2. Reject missing data, extra non-whitespace content, and
+            values outside the range of the chosen types.
+            - Read into temporary variables and a temporary board. Replace the active state only after the complete file passes
+            validation.
+            - Leave the game unchanged if the file is missing or invalid, and display a useful error message.
+            - Restore the exact saved board and counters without inserting a tile or counting a move. The future random sequence
+            does not need to be restored.
 
 
 - Part B- Luhn checksum validation (Lanz will mostly handle this part, would also still recommend looking at the documents there's more specific details you need to do to check it)
