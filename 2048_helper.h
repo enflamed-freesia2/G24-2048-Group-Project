@@ -5,22 +5,94 @@ using namespace std;
 
 void move_left(int board[][5], int numrows = 5)
 {
-	//CODE HERE
+    for (int i = 0; i < numrows; i++)
+    {
+        int temp[5] = {0};
+        int index = 0;
+
+        for (int j = 0; j < 5; j++)
+        {
+            if (board[i][j] != 0)
+            {
+                temp[index] = board[i][j];
+                index++;
+            }
+        }
+
+        for (int j = 0; j < 5; j++)
+        {
+            board[i][j] = temp[j];
+        }
+    }
 }
 
 void move_right(int board[][5], int numrows = 5)
 {
-	//CODE HERE
+    for (int i = 0; i < numrows; i++)
+    {
+        int temp[5] = {0};
+        int index = 4;
+
+        for (int j = 4; j >= 0; j--)
+        {
+            if (board[i][j] != 0)
+            {
+                temp[index] = board[i][j];
+                index--;
+            }
+        }
+
+        for (int j = 0; j < 5; j++)
+        {
+            board[i][j] = temp[j];
+        }
+    }
 }
 
 void move_up(int board[][5], int numrows = 5)
 {
-	//CODE HERE
+    for (int j = 0; j < 5; j++)
+    {
+        int temp[5] = {0};
+        int index = 0;
+
+        for (int i = 0; i < numrows; i++)
+        {
+            if (board[i][j] != 0)
+            {
+                temp[index] = board[i][j];
+                index++;
+            }
+        }
+
+        for (int i = 0; i < numrows; i++)
+        {
+            board[i][j] = temp[i];
+        }
+    }
 }
 
 void move_down(int board[][5], int numrows = 5)
 {
-	//CODE HERE
+    for (int j = 0; j < 5; j++)
+    {
+        int temp[5] = {0};
+        int index = 4;
+
+        for (int i = numrows - 1; i >= 0; i--)
+        {
+            if (board[i][j] != 0)
+            {
+                temp[index] = board[i][j];
+                index--;
+            }
+        }
+
+        for (int i = 0; i < numrows; i++)
+        {
+            board[i][j] = temp[i];
+        }
+    }
 }
 
 
