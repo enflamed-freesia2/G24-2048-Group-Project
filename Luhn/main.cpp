@@ -11,15 +11,15 @@ int main(){
                      //A credit card has 16 digits, 
     bool NoChar = true;
            
-    do{ // The purpose of this whole segment is to check whether or not the user inputted something that is actually 16 in length.
+    do{ // The purpose of this whole segment is to check whether or not the user inputted something that is actually 16 in length 
+        // It also checks if a character was inpu
     cout << "Please enter a 16-digit number.\n"; 
     cin >> user_input; 
-    counter = 0; // Reset the counter to zero before checking the number.
-    NoChar = true;
+    counter = 0; // Reset the counter to zero before checking the input.
+    NoChar = true; // Reset the boolean before checking the input.
     while(user_input[counter] != '\0'){
-        
         if (user_input[counter] >= '0' and user_input[counter] <= '9'){
-          
+          //Its good, keep continuing, no code needed here 
         }
         else{
             NoChar = false;
@@ -32,7 +32,6 @@ int main(){
     }
     }
     while(counter != 16 or NoChar == false or !LuhnValid(user_input));
-
     // !LuhnValid just says, "if my function, LuhnValid, returns False, I want you to loop it again.
 }
 
