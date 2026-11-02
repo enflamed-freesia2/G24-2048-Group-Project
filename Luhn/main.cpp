@@ -8,7 +8,7 @@ int main(){
     //Input
     char user_input[17]; //We make the size 17 because of the null character at the end.
     int counter = 0; // This counts the amount of digits within the userinput. 
-                     //A credit card has 16 digits, 
+                     //a credit card has 16 digits.
     bool NoChar = true;
            
     do{ // The purpose of this whole segment is to check whether or not the user inputted something that is actually 16 in length 
