@@ -1,3 +1,5 @@
-#include <iostream>
 #include "includes/luhn.h"
-//This is where our luhn function actually goes.
+
+bool LuhnValid(const char input[]){
+    // Code goes here to check the user input. Return true if its valid, return false if not.
+}
