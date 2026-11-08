@@ -245,3 +245,65 @@ void insert_random(int board[][5], int numrows = 5)
 	}
 }
 
+void save_board(int board[][5])
+{
+    ofstream file("2048_save.txt");
+
+    if (!file)
+    {
+        cout << "Unable to save game!" << endl;
+        return;
+    }
+
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            file << board[i][j] << " ";
+        }
+        file << endl;
+    }
+
+    file.close();
+    cout << "Game has been saved!" << endl;
+}
+
+bool load_board(int board[][5])
+{
+    ifstream file("2048_save.txt");
+
+    if (!file)
+    {
+        cout << "No saved game found!" << endl;
+        return false;
+    }
+
+    int temp[5][5];
+
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            //To protect against invalid save file, check if reading was successful
+            if (!(file >> temp[i][j]))  
+            {
+                cout << "Invalid save file!" << endl;
+                return false;
+            }
+        }
+    }
+
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            board[i][j] = temp[i][j];
+        }
+    }
+
+    file.close();
+
+    cout << "Game has been loaded!" << endl;
+    return true;
+}
+
