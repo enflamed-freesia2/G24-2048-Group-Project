@@ -6,7 +6,7 @@
 using namespace std;
 
 //Directional functions
-void move_left(int board[][5], int numrows = 5)
+void move_left(int board[][5], int numrows = 5, int &score)
 {
     for (int i = 0; i < numrows; i++) {
         int temp[5] = {0};
@@ -36,7 +36,7 @@ void move_left(int board[][5], int numrows = 5)
 }
 
 
-void move_right(int board[][5], int numrows = 5)
+void move_right(int board[][5], int numrows = 5, int &score)
 {
     for (int i = 0; i < numrows; i++) {
         int temp[5] = {0};
@@ -66,7 +66,7 @@ void move_right(int board[][5], int numrows = 5)
 }
 
 
-void move_up(int board[][5], int numrows = 5)
+void move_up(int board[][5], int numrows = 5, int &score)
 {
    for (int j = 0; j < 5; j++) {
         int temp[5] = {0};
@@ -96,7 +96,7 @@ void move_up(int board[][5], int numrows = 5)
 }
 
 
-void move_down(int board[][5], int numrows = 5)
+void move_down(int board[][5], int numrows = 5, int &score)
 {
     for (int j = 0; j < 5; j++) {
         int temp[5] = {0};
