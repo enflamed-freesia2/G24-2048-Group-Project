@@ -5,6 +5,7 @@
 
 using namespace std;
 
+//Directional functions
 void move_left(int board[][5], int numrows = 5)
 {
     for (int i = 0; i < numrows; i++)
@@ -190,6 +191,10 @@ void move_down(int board[][5], int numrows = 5)
         }
     }
 }
+//=======================================================================
+
+//Save and load function
+
 //validate if the board values are even validated numbers on the board
 bool power_of_two(int n){
     if(n<2) return false;
@@ -301,8 +306,48 @@ bool load_board(int board[][5], int& score, int& moves){
     cout<<"game loaded successfully"<<endl;
     return true;
 }
-
-
+//============================================================================
+//win/lose function
+bool winning(int board[][5]){
+    for(int n = 0; n < 5; n++){
+        for(int r = 0; r < 5; r++){
+            if(board[n][r]>=2048){
+                return true;
+            }
+        }
+    }
+}
+//to check for possible moves, we need to check vertically and horizontally
+//to fully confirm whether are not any tiles are uncombinable
+bool losing(int board[][5]){
+    //empty cell check
+    for(int n =0; n < 5; n++){
+        for(int r =0; r<5; r++){
+            if(board[n][r]==0){
+                return false;
+            }
+        }
+    }
+    //vertical check
+    for(int n =0; n < 4; n++){
+        for(int r =0; r<5; r++){
+            if(board[n][r]==board[n+1][r]){
+                return false;
+            }
+        }
+    }
+    //horizontal check
+    for(int n =0; n < 5; n++){
+        for(int r =0; r<4; r++){
+            if(board[n][r]==board[n][r+1]){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+//============================================================================
+//print & random
 void print_board(int board[][5], int numrows = 5)
 {
 	cout << endl << "\t-----------------------------------------" << endl;
