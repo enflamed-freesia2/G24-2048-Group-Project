@@ -8,187 +8,120 @@ using namespace std;
 //Directional functions
 void move_left(int board[][5], int numrows = 5)
 {
-    for (int i = 0; i < numrows; i++)
-    {
+    for (int i = 0; i < numrows; i++) {
         int temp[5] = {0};
         int index = 0;
-        //this just shifts any numbers that are non-zero to the LEFT
-        for (int j = 0; j < 5; j++)
-        {
-            if (board[i][j] != 0)
-            {
-                temp[index++] = board[i][j];
-                
-            }
-           
-        }
-        //takes all non-zeros to the front and fill every remaining spot with a zero
-        while(index < 5) {temp[index++] = 0;} 
-        //merge function here
-        for(int n =0; n < 4; n++){
-            //the if statement checks if the current temporary variable in the array is exactly the same as the next one
-            if(board[i][n] != 0 && board[i][n]==board[i][n+1]){
-                board[i][n]*= 2;
-                board[i][n + 1] =0;
-                n++;
-            }
-            
-        }
-        //shift it again because the previous function before this created new empty space
-        index = 0;
-        for (int j = 0; j < 5; j++)
-        {
-            if (board[i][j] != 0)
-            {
-                temp[index] = board[i][j];
-                index++;
-            }
-           
-        }
-         while(index < 5) {temp[index++] = 0;}
-        for (int j = 0; j < 5; j++)
-        {
-            board[i][j] = temp[j];
+        for (int j = 0; j < 5; j++) {
+            if (board[i][j] != 0) temp[index++] = board[i][j];
         }
         
+        // MERGE INSIDE TEMP
+        for(int n = 0; n < 4; n++){
+            if(temp[n] != 0 && temp[n] == temp[n+1]){
+                temp[n] *= 2;
+                temp[n+1] = 0;
+                n++; 
+            }
+        }
+        
+        // SECOND SHIFT
+        int final_temp[5] = {0};
+        index = 0;
+        for (int j = 0; j < 5; j++) {
+            if (temp[j] != 0) final_temp[index++] = temp[j];
+        }
+        
+        for (int j = 0; j < 5; j++) board[i][j] = final_temp[j];
     }
 }
+
 
 void move_right(int board[][5], int numrows = 5)
 {
-    for (int i = 0; i < numrows; i++)
-    {
+    for (int i = 0; i < numrows; i++) {
         int temp[5] = {0};
         int index = 4;
-
-        for (int j = 4; j >= 0; j--)
-        {
-            if (board[i][j] != 0)
-            {
-                temp[index] = board[i][j];
-                index--;
+        for (int j = 4; j >= 0; j--) {
+            if (board[i][j] != 0) temp[index--] = board[i][j];
+        }
+        
+        // MERGE INSIDE TEMP
+        for(int n = 4; n > 0; n--){
+            if(temp[n] != 0 && temp[n] == temp[n-1]){
+                temp[n] *= 2;
+                temp[n-1] = 0;
+                n--; 
             }
         }
-         while(index >= 0) {temp[index--] = 0;} 
-
-        for(int n =4; n > 0; n--){
-            //the if statement checks if the current temporary variable in the array is exactly the same as the next one
-            if(board[i][n] != 0 && board[i][n]==board[i][n-1]){
-                board[i][n]*= 2;
-                board[i][n - 1] =0;
-                n--;
-            }
-        }
-
+        
+        // SECOND SHIFT
+        int final_temp[5] = {0};
         index = 4;
-
-        for (int j = 4; j >= 0; j--)
-        {
-            if (board[i][j] != 0)
-            {
-                temp[index] = board[i][j];
-                index--;
-            }
+        for (int j = 4; j >= 0; j--) {
+            if (temp[j] != 0) final_temp[index--] = temp[j];
         }
-         while(index >= 0) {temp[index--] = 0;} 
-
-        for (int j = 0; j < 5; j++)
-        {
-            board[i][j] = temp[j];
-        }
+        
+        for (int j = 0; j < 5; j++) board[i][j] = final_temp[j];
     }
 }
+
 
 void move_up(int board[][5], int numrows = 5)
 {
-    for (int j = 0; j < 5; j++)
-    {
+   for (int j = 0; j < 5; j++) {
         int temp[5] = {0};
         int index = 0;
-
-        for (int i = 0; i < numrows; i++)
-        {
-            if (board[i][j] != 0)
-            {
-                temp[index] = board[i][j];
-                index++;
+        for (int i = 0; i < numrows; i++) {
+            if (board[i][j] != 0) temp[index++] = board[i][j];
+        }
+        
+        // MERGE INSIDE TEMP
+        for(int n = 0; n < 4; n++){
+            if(temp[n] != 0 && temp[n] == temp[n+1]){
+                temp[n] *= 2;
+                temp[n+1] = 0;
+                n++; 
             }
         }
-        while(index < 5) {temp[index++]=0;}
-
-        //merger
-        for(int n =0; n < 4; n++){
-            //the if statement checks if the current temporary variable in the array is exactly the same as the next one
-            if(board[n][j] != 0 && board[n][j]==board[n+1][j]){
-                board[n][j]*= 2;
-                board[n+1][j] =0;
-                n++;
-            }
+        
+        // SECOND SHIFT
+        int final_temp[5] = {0};
+        index = 0;
+        for (int i = 0; i < numrows; i++) {
+            if (temp[i] != 0) final_temp[index++] = temp[i];
         }
-
-        index=0;
-        //shift again to make up for the spaces
-        for (int i = 0; i < numrows; i++)
-        {
-            if (board[i][j] != 0)
-            {
-                temp[index] = board[i][j];
-                index++;
-            }
-        }
-        while(index < 5) {temp[index++]=0;}
-
-
-        for (int i = 0; i < numrows; i++)
-        {
-            board[i][j] = temp[i];
-        }
+        
+        for (int i = 0; i < numrows; i++) board[i][j] = final_temp[i];
     }
 }
 
+
 void move_down(int board[][5], int numrows = 5)
 {
-    for (int j = 0; j < 5; j++)
-    {
+    for (int j = 0; j < 5; j++) {
         int temp[5] = {0};
         int index = 4;
-
-        for (int i = numrows - 1; i >= 0; i--)
-        {
-            if (board[i][j] != 0)
-            {
-                temp[index] = board[i][j];
-                index--;
-            }
+        for (int i = numrows - 1; i >= 0; i--) {
+            if (board[i][j] != 0) temp[index--] = board[i][j];
         }
-        while(index >= 0) {temp[index--] = 0;}
-
-        // merger
+        
+        // MERGE INSIDE TEMP
         for(int n = 4; n > 0; n--){
-            //the if statement checks if the current temporary variable in the array is exactly the same as the next one
-            if(board[n][j] != 0 && board[n][j]==board[n-1][j]){
-                board[n][j]*= 2;
-                board[n-1][j] =0;
-                n--;
+            if(temp[n] != 0 && temp[n] == temp[n-1]){
+                temp[n] *= 2;
+                temp[n-1] = 0;
+                n--; 
             }
         }
-
+        
+        // SECOND SHIFT
+        int final_temp[5] = {0};
         index = 4;
-
-        for (int i = numrows - 1; i >= 0; i--)
-        {
-            if (board[i][j] != 0)
-            {
-                temp[index] = board[i][j];
-                index--;
-            }
+        for (int i = numrows - 1; i >= 0; i--) {
+            if (temp[i] != 0) final_temp[index--] = temp[i];
         }
-        while(index >= 0) {temp[index--] = 0;}
-
-        for (int i = 0; i < numrows; i++)
-        {
-            board[i][j] = temp[i];
-        }
+        
+        for (int i = 0; i < numrows; i++) board[i][j] = final_temp[i];
     }
 }
 //=======================================================================
@@ -316,6 +249,7 @@ bool winning(int board[][5]){
             }
         }
     }
+    return false;
 }
 //to check for possible moves, we need to check vertically and horizontally
 //to fully confirm whether are not any tiles are uncombinable
