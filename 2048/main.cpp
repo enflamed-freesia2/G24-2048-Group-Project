@@ -93,7 +93,31 @@ int main()
 		// Check for Win
 		if(!winannounced && winning(board)){
 			cout << "\n*** Congratulations! You reached 2048! ***" << endl;
-			cout << "You may continue playing to beat your high score.\n" << endl;
+			cout << "would you like to start a new game (y/n)\n" << endl;
+			char restart;
+			cin >> restart;
+
+			if(restart=='y'||restart=='Y'){
+				for (int i = 0; i < 5; i++) {
+					for (int j = 0; j < 5; j++) {
+						board[i][j] = 0;
+					}
+				}
+			//reset counters
+				score = 0;
+				moves = 0;
+				winannounced = false;
+				isgameover = false;
+
+				//board comes with two new tiles
+				insert_random(board, size);
+				insert_random(board, size);
+				
+
+				cout << "\nNew game started!" << endl;
+				print_board(board);
+				cout << "Score: " << score << " | Moves: " << moves << endl;
+			}
 			winannounced = true; 
 		}
 
@@ -102,6 +126,32 @@ int main()
 			cout << "\n*** GAME OVER ***" << endl;
 			cout << "No more moves are possible." << endl;
 			cout << "You may still Save, Load, or Exit.\n" << endl;
+			cout <<"or would you like to play another game? (y/n)"<<endl;
+
+			char restart;
+			cin >> restart;
+
+			if(restart=='y'||restart=='Y'){
+				for (int i = 0; i < 5; i++) {
+					for (int j = 0; j < 5; j++) {
+						board[i][j] = 0;
+					}
+				}
+			//reset counters
+				score = 0;
+				moves = 0;
+				winannounced = false;
+				isgameover = false;
+
+				//board comes with two new tiles
+				insert_random(board, size);
+				insert_random(board, size);
+				
+
+				cout << "\nNew game started!" << endl;
+				print_board(board);
+				cout << "Score: " << score << " | Moves: " << moves << endl;
+			}
 			isgameover = true; 
 		}
 
