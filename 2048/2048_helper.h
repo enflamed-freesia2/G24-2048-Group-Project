@@ -1,6 +1,8 @@
 #include <iostream>
 #include <random>
 #include <iomanip>
+#include <fstream>
+
 using namespace std;
 
 void move_left(int board[][5], int numrows = 5)
@@ -14,8 +16,8 @@ void move_left(int board[][5], int numrows = 5)
         {
             if (board[i][j] != 0)
             {
-                temp[index] = board[i][j];
-                index++;
+                temp[index++] = board[i][j];
+                
             }
            
         }
@@ -29,6 +31,7 @@ void move_left(int board[][5], int numrows = 5)
                 board[i][n + 1] =0;
                 n++;
             }
+            
         }
         //shift it again because the previous function before this created new empty space
         index = 0;
@@ -187,6 +190,117 @@ void move_down(int board[][5], int numrows = 5)
         }
     }
 }
+//validate if the board values are even validated numbers on the board
+bool power_of_two(int n){
+    if(n<2) return false;
+    while(n % 2 ==0){
+        n /= 2;
+
+    }
+    return n == 1;
+}
+
+void save_board(int board[][5], int score, int moves){
+    ofstream outFile;
+    outFile.open("savegame.txt");
+
+    if(outFile.fail()){
+        cout<<"error could not open up a file for saving"<<endl;
+        return;
+    }
+
+    //writing out file header
+    outFile<<"CS211_2048_V1"<<endl;
+
+    //writing counters
+    outFile<<score<<" "<<moves<<endl;
+
+    //writing the 5x5 board
+    for(int n = 0; n < 5; n++){
+        for(int r = 0; r < 5; r++){
+            outFile<<board[n][r];
+            if(r<4){
+                outFile<<" ";
+            }
+        }
+        outFile<<endl;
+    }
+    outFile.close();
+    cout<<"game saved successfully"<<endl;
+}
+
+bool load_board(int board[][5], int& score, int& moves){
+    ifstream infile("savegame.txt");
+        if(!infile){
+            cout<<"error: sample_save.txt cannot be found or opened"<<endl;
+            return false;
+        }
+    
+
+    char marker[20];
+    infile>>marker;
+    
+    //string comparison
+    const char expected[] = "CS211_2048_V1";
+    int i =0;
+    while(expected[i] != '\0' && marker[i] != '\0'){
+        if(expected[i] != marker[i]){
+            infile.close();
+            cout<<"Error: invalid file marker"<<endl;
+            return false;
+        }
+        i++;
+    }
+    if(expected[i] != marker[i]){ //when lengths don't match
+        infile.close();
+        cout<<"Error: invalid file marker (length)"<<endl;
+        return false;
+    }
+    // when the resultant score and moves don't match up
+    int temp_score;
+    int temp_moves;
+    if(!(infile>>temp_score>>temp_moves) || temp_score < 0 || temp_moves < 0 ){
+        infile.close();
+        cout<<"Error: invalid counters in the save file"<<endl;
+        return false;
+    }
+    int temp_board[5][5];
+    for(int r = 0; r < 5; r++){
+        for(int v = 0; v<5; v++){
+            if(!(infile>>temp_board[r][v])){
+                infile.close();
+                cout << "Error: Missing board data." << endl;
+                return false;
+            }
+            if (temp_board[r][v] != 0 && !power_of_two(temp_board[r][v])) {
+                infile.close();
+                cout << "Error: Invalid tile value on board." << endl;
+                return false;
+            }
+        }
+    }
+    //if extra whitespace is found, deny
+    char extra;
+    
+    if(infile>>extra){
+    infile.close();
+    cout<<"Error: extra data found in the file"<<endl;
+    return false;
+}
+
+    //when it does validate by passing all the markers
+    score = temp_score;
+    moves = temp_moves;
+    for(int r =0; r < 5; r++){
+        for(int n = 0; n < 5; n++){
+            board[r][n] = temp_board[r][n];
+        }
+    }
+
+    infile.close();
+    cout<<"game loaded successfully"<<endl;
+    return true;
+}
 
 
 void print_board(int board[][5], int numrows = 5)
@@ -195,14 +309,14 @@ void print_board(int board[][5], int numrows = 5)
 
 	for (int r = 0; r < numrows; r++)
 	{
-		for (int c = 0; c < 5; c++)
+		for (int v = 0; v < 5; v++)
 		{
-			if(board[r][c] > 0)
-				cout << "\t|" << right << setw(6) << setfill(' ') << board[r][c];
+			if(board[r][v] > 0)
+				cout << "\t|" << right << setw(6) << setfill(' ') << board[r][v];
 			else
 				cout << "\t|" << right << setw(6) << setfill(' ') << " ";
 
-			//cout << board[r][c] << "\t|\t";
+			//cout << board[r][v] << "\t|\t";
 		}
 		cout << "\t|" << endl;
 		cout << "\t-----------------------------------------" << endl;
@@ -214,14 +328,14 @@ void print_board(int board[][5], int numrows = 5)
 
 void insert_random(int board[][5], int numrows = 5)
 {
-	int r, c;
+	int r, v;
 	//count empty
 	int empty_count = 0;
 	for (int r = 0; r < numrows; r++)
 	{
-		for (int c = 0; c < 5; c++)
+		for (int v = 0; v < 5; v++)
 		{
-			if (board[r][c] == 0)
+			if (board[r][v] == 0)
 				empty_count++;
 		}
 	}
@@ -230,14 +344,14 @@ void insert_random(int board[][5], int numrows = 5)
 	{
 		while (true)
 		{
-			//generate random location r, c
+			//generate random location r, v
 			r = rand() % numrows;
-			c = rand() % numrows;
+			v = rand() % numrows;
 			//check if empty
-			if (board[r][c] == 0)
+			if (board[r][v] == 0)
 			{
 				//add number randomly {2,4}
-				board[r][c] = 2 * (1 + (rand() % 2));
+				board[r][v] = 2 * (1 + (rand() % 2));
 				break;
 			}
 		}
