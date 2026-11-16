@@ -19,10 +19,14 @@ int main()
 
 	int score =0;
 	int moves=0;
+	//both of these check if we already gave the user win/lose by tracking it
+	bool winannounced = false;
+	bool isgameover = false;
 
 	char choice = 'u';	//initialized
 	while (choice != 'e')
 	{
+		
 
 		cout << "Please enter choice:{u,d,l,r,s,o,e} for UP, DOWN, LEFT, RIGHT, Save, Open, Exit: " << endl;
 		cout << "Choice: ";
@@ -35,16 +39,22 @@ int main()
 				old_board[i][n]=board[i][n];
 			}
 		}
+		while(!isgameover){
+			if (choice == 'u')
+				move_up(board, size);
+			else if (choice == 'd')
+				move_down(board, size);
+			else if (choice == 'l')
+				move_left(board, size);
+			else if (choice == 'r')
+				move_right(board, size);
+			else if (choice == 'u' || choice == 'd' || choice == 'l' || choice == 'r'){
+				cout<<"Game over you lose"<<endl;
+				continue;
+			}
+		}
 
-		if (choice == 'u')
-			move_up(board, size);
-		else if (choice == 'd')
-			move_down(board, size);
-		else if (choice == 'l')
-			move_left(board, size);
-		else if (choice == 'r')
-			move_right(board, size);
-		else if(choice =='s'){
+		if(choice =='s'){
 			save_board(board, score, moves);
 			continue;
 		}
@@ -59,23 +69,36 @@ int main()
 			}
 			continue;
 		}
-		//checking for changes within the board
-		for(int n = 0;n<5; n++){
-			for(int r =0; r < 5; r++){
-				if (board[n][r]!=old_board[n][r]){
-					board_changed = true;
-				}
+	//checking for changes within the board
+	for(int n = 0;n<5; n++){
+		for(int r =0; r < 5; r++){
+			if (board[n][r]!=old_board[n][r]){
+				board_changed = true;
 			}
 		}
-		//check if board has even changed before adding a random tile to the board
-		if(board_changed){
-			moves++;
-			insert_random(board, size);
-		}
-		print_board(board);
-
 	}
+	//check if board has even changed before adding a random tile to the board
+	if(board_changed){
+		moves++;
+		insert_random(board, size);
+	}
+	//check if the user won
+		if(!winannounced && winning(board)){
+			cout << "\n*** Congratulations! You reached 2048! ***" << endl;
+			cout << "You may continue playing to beat your high score.\n" << endl;
+			winannounced = true; // Only announce it once
+		}
+	//check if the user lost
+		if(!isgameover && losing(board)){
+			cout << "\n*** GAME OVER ***" << endl;
+			cout << "No more moves are possible." << endl;
+			cout << "You may still Save, Load, start a New game, or Exit.\n" << endl;
+			isgameover = true; 
+		}
+	}		
 
+	
+		print_board(board);
+		return 0;
 
-	return 0;
 }
